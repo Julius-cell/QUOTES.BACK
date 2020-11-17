@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <title>Quote API</title>
+  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- ICONS -->
+  <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+  <h1>Quote API</h1>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/add-quote">Add Quote</a>
+  </nav>
+  <h2>Get Quotes</h2>
+  <div class="request-buttons">
+    <div>
+      <button id="fetch-random">Fetch a Random Quote</button>
+      <button id="fetch-quotes">Fetch all Quotes</button>
+    </div>
+    <div>
+      <input id="author" value="">
+      <button id="fetch-by-author">Fetch by Author</button>
+    </div>
+  </div>
+  <div id="quote-container">
+    
+  </div>
+
+  <footer>
+    Copyright &copy; App Quotes 2020 By Julio Cid
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
