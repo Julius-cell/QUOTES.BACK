@@ -13,7 +13,7 @@ window.addEventListener("load", () => {
 });
 
 function renderQuote(id) {
-  fetch(`/api/modify-quote?id=${id}`)
+  fetch(`/api/quotes/modify-quote?id=${id}`)
     .then((response) => response.json())
     .then((jsonResp) => {
       const elem = jsonResp.data.modifyQuote;
@@ -54,7 +54,7 @@ modifyButton.addEventListener("click", () => {
     }),
   };
 
-  fetch(`/api/modify-quote`, options)
+  fetch(`/api/quotes/modify-quote`, options)
     .then((response) => response.json())
     .then((jsonResp) => {
       resetModifyButton();
