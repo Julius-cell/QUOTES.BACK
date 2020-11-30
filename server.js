@@ -1,45 +1,28 @@
-const express = require("express");
-const morgan = require("morgan");
-const quotesRouter = require('./routes/quote-routes');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
-const app = express();
-const PORT = process.env.PORT || 4000;
+dotenv.config({ path: './config.env' });
 
+const app = require('./app');
 
+// ----------  LISTENING DB  ----------
+// const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
+// mongoose.connect(DB, {
+//   useNewUrlParser: true,
+//   useCreateIndex: true,
+//   useFindAndModify: false
+// }).then(con => {
+//   // console.log(con.connections);
+//   console.log('DB connection succesfully');
+// });
 
-// -------------------  STATICS FILES  -------------------
-app.use(express.static("public"));
-app.use("/css", express.static(__dirname + "public/css"));
-// -----------------------------------------------------------
-
-
-// -------------------  MIDDLEWARES  -------------------
-app.use(morgan("dev"));
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-// -----------------------------------------------------------
+// --------------------------------
 
 
-// -------------------  ROUTES  -------------------
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
+// ----------  LISTENING PORT  ----------
+const port = process.env.PORT || 4000;
+
+app.listen(port, () => {
+  console.log(`App running in port: ${port}...`);
 });
-app.get("/add-quote", (req, res) => {
-  res.sendFile(__dirname + "/public/add-quote.html");
-});
-app.get("/modify-quote", (req, res) => {
-  res.sendFile(__dirname + "/public/modify-quote.html");
-});
-
-app.use('/api/quotes/', quotesRouter);
-
-// -----------------------------------------------------------
-
-
-
-// -------------------  CONNECT TO SERVER  -------------------
-app.listen(PORT, "localhost", () => {
-  console.log(`Listening for requests on port ${PORT}`);
-});
-// -----------------------------------------------------------
+// --------------------------------

@@ -18,7 +18,7 @@ submitButton.addEventListener('click', () => {
     })
   }
 
-  fetch(`/api/quotes/newquote`, options)
+  fetch(`/api/quotes`, options)
     .then(response => response.json())
     .then(res => {
       console.log(res.data.newQuote);

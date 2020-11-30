@@ -52,7 +52,7 @@ const getAllQuotes = async () => {
 
 function deleteQuote(id) {
   console.log(id);
-  fetch(`/api/quotes/delete?id=${id}`, { method: "DELETE" })
+  fetch(`/api/quotes?id=${id}`, { method: "DELETE" })
     .then(response => response.json())
     .then(jsonResponse => {
       resetQuotes();

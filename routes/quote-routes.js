@@ -1,25 +1,23 @@
 const express = require('express');
-const fs = require("fs");
 const quoteController = require('../controllers/quote-controller');
 
-const quotesRouter = express.Router();
+const router = express.Router();
 
 
+router.route('/')
+  .get(quoteController.quote_all)
+  .post(quoteController.add_quote)
+  .delete(quoteController.delete_quote);
 
-quotesRouter.get('/', quoteController.quote_all);
+router.route('/random')
+  .get(quoteController.quote_random);
 
-quotesRouter.get('/random', quoteController.quote_random);
+router.route('/author')
+  .get(quoteController.quote_byAuthor);
 
-quotesRouter.get('/author', quoteController.quote_byAuthor);
-
-quotesRouter.post('/newquote', quoteController.add_quote);
-
-quotesRouter.get('/modify-quote', quoteController.get_modify_quote);
-
-quotesRouter.put('/modify-quote', quoteController.put_modify_quote);
-
-quotesRouter.delete('/delete', quoteController.delete_quote);
+router.route('/modify-quote')
+  .get(quoteController.get_modify_quote)
+  .put(quoteController.put_modify_quote);
 
 
-
-module.exports = quotesRouter;
+module.exports = router;
