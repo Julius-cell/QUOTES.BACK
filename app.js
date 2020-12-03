@@ -20,15 +20,15 @@ app.use(express.urlencoded({ extended: true }));
 
 
 // -------------------  ROUTES  -------------------
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
-});
-app.get("/add-quote", (req, res) => {
-  res.sendFile(__dirname + "/public/add-quote.html");
-});
-app.get("/modify-quote", (req, res) => {
-  res.sendFile(__dirname + "/public/modify-quote.html");
-});
+// app.get("/", (req, res) => {
+//   res.sendFile(__dirname + "/public/index.html");
+// });
+// app.get("/add-quote", (req, res) => {
+//   res.sendFile(__dirname + "/public/add-quote.html");
+// });
+// app.get("/modify-quote", (req, res) => {
+//   res.sendFile(__dirname + "/public/modify-quote.html");
+// });
 
 app.use('/api/quotes/', quotesRouter);
 
