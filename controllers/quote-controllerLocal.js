@@ -4,7 +4,8 @@ const Quote = require("../models/quoteModel");
 // -------------------  CONTROLLERS  -------------------
 exports.quote_all = async (req, res) => {
   try {
-    const quotes = await Quote.find();
+
+    const quotes = await Quote.find().sort('-createdAt').select('-__v');
 
     res.status(200).json({
       status: "success",
