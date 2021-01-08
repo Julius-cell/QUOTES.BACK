@@ -1,5 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
+
+const AppError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/errorController');
 const quotesRouter = require('./routes/quote-routes');
 
 const app = express();
@@ -31,7 +34,16 @@ app.use(express.urlencoded({ extended: true }));
 // });
 
 app.use('/api/quotes/', quotesRouter);
+// -------------------------------------------------
 
-// -----------------------------------------------------------
+// ---------------  ROUTES ERROR -------------------
+app.all('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on the server! (Manually created)`, 404));
+});
+// -------------------------------------------------
+
+// ---------  ERROR HANDLING MIDDLEWARES ---------
+app.use(globalErrorHandler);
+// -----------------------------------------------
 
 module.exports = app;

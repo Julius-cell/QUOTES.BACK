@@ -3,12 +3,15 @@ const mongoose = require('mongoose');
 const quoteSchema = new mongoose.Schema({
   quote: {
     type: String,
-    required: true,
-    unique: [true, 'A quote must have a message']
+    required: [true, 'A quote must have a message'],
+    unique: true,
+    trim: true,
   },
   person: {
     type: String,
-    required: true,
+    required: [true, 'A quote must have an Author'],
+    trim: true,
+    maxlength: [15, 'An Author name must have less or equal then 15 characters']
   },
   createdAt: {
     type: Date,
