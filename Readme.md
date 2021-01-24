@@ -14,6 +14,10 @@ Aplicación que permite añadir, modificar y eliminar frases (Quotes) de una bas
 - JavaScript
 - HTML / CSS
 
+- Validator
+- BCryptjs
+- JsonWebToken
+
 ---
 
 ## Learn More

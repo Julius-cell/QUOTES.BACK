@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const quotesRouter = require('./routes/quote-routes');
+const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 // });
 
 app.use('/api/quotes/', quotesRouter);
+app.use('/api/users', userRouter);
 // -------------------------------------------------
 
 // ---------------  ROUTES ERROR -------------------
