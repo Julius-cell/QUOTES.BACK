@@ -20,6 +20,12 @@ app.use(morgan("dev"));
 app.use(express.json());
 // With this middleware i can received data from 'options'(fetch) from the browser
 app.use(express.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  console.log(req.headers);
+  
+  next();
+});
 // -----------------------------------------------------------
 
 

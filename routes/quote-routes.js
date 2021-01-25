@@ -1,12 +1,13 @@
 const express = require("express");
 // const quoteController = require('../controllers/quote-controller-FS');
 const quoteController = require("../controllers/quote-controller");
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
 router
   .route("/")
-  .get(quoteController.quote_all)
+  .get(authController.protect, quoteController.quote_all)
   .post(quoteController.add_quote);
 // .delete(quoteController.delete_quote);
 
