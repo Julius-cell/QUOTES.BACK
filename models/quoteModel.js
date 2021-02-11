@@ -11,7 +11,7 @@ const quoteSchema = new mongoose.Schema({
     type: String,
     required: [true, 'A quote must have an Author'],
     trim: true,
-    maxlength: [15, 'An Author name must have less or equal then 15 characters']
+    maxlength: [20, 'An Author name must have less or equal then 20 characters']
   },
   createdAt: {
     type: Date,

@@ -8,20 +8,19 @@ const router = express.Router();
 router
   .route("/")
   .get(authController.protect, quoteController.quote_all)
-  .post(quoteController.add_quote);
-// .delete(quoteController.delete_quote);
+  .post(authController.protect, quoteController.add_quote);
 
 router.route("/random").get(quoteController.quote_random);
 
 
 router.route("/:id")
-.delete(quoteController.delete_quote)
+.delete(authController.protect, authController.restrictTo('admin'), quoteController.delete_quote)
 
-router.route("/author/:person").get(quoteController.quote_byAuthor);
+router.route("/author/:person").get(authController.protect, quoteController.quote_byAuthor);
 
 router
   .route("/modify/:id")
-  .get(quoteController.get_modify_quote)
-  .patch(quoteController.patch_modify_quote);
+  .get(authController.protect, authController.restrictTo('admin'), quoteController.get_modify_quote)
+  .patch(authController.protect, authController.restrictTo('admin'), quoteController.patch_modify_quote);
 
 module.exports = router;

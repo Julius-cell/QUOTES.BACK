@@ -16,7 +16,7 @@ const handleValidationErrorDB = (err) => {
   const errors = err.message;
 
   const message = `Invalid input data. ${errors} `;
-  return new AppError(message, 400)
+  return new AppError(message, 400);
 };
 
 const sendError = (err, res) => {
@@ -50,8 +50,12 @@ const sendMongooseError = (err, res) => {
       status: err.status,
       message: err.message,
     });
-  };
+  }
 };
+
+const handleJWTError = () => new AppError('Invalid Token. Please log in Again', 401);
+
+const handleExpireSessionError = () => new AppError('Your Session has expired!. Please log in again', 401);
 
 module.exports = (err, req, res, next) => {
   // console.log(err.stack);
@@ -67,15 +71,17 @@ module.exports = (err, req, res, next) => {
   if (error.name === "CastError") {
     error = handleCastErrorDB(error);
     sendMongooseError(error, res);
-  };
+  }
   if (error.code === 11000) {
     error = handleDuplicateFieldsDB(error);
     sendMongooseError(error, res);
-  };
+  }
   if (error.name === "ValidationError") {
     error = handleValidationErrorDB(error);
     sendMongooseError(error, res);
-  };
+  }
+  if (error.name === "JsonWebTokenError") error = handleJWTError();
+  if (error.name === "TokenExpiredError") error = handleExpireSessionError();
 
   sendError(error, res);
 };
