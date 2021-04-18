@@ -5,24 +5,43 @@ dotenv.config({ path: './config.env' });
 
 const app = require('./app');
 
-// ----------  LISTENING DB  ----------
-// const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
-// mongoose.connect(DB, {
-//   useNewUrlParser: true,
-//   useCreateIndex: true,
-//   useFindAndModify: false
-// }).then(con => {
-//   // console.log(con.connections);
-//   console.log('DB connection succesfully');
-// });
+// ----------  UNCAUGHT EXCEPTIONS (NEW)  ----------
+process.on('uncaughtException', err => {
+  console.log(`${err.name}: ${err.message}`);
+  console.log('UNCAUGHT EXCEPTION! Shutting down...');
+  process.exit(1);
+});
+// ------------------------------------------
 
+// ----------  LISTENING DB  ----------
+const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
+mongoose.connect(DB, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true
+}).then(con => {
+  // console.log(con.connections);
+  console.log('DB connection succesfully');
+});
 // --------------------------------
 
 
 // ----------  LISTENING PORT  ----------
 const port = process.env.PORT || 4000;
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App running in port: ${port}...`);
 });
 // --------------------------------
+
+
+// ----------  UNHANDLED REJECTIONS (NEW) ----------
+process.on('unhandledRejection', (err) => {
+  console.log(`${err.name}: ${err.message}`);
+  console.log('UNHANDLER REJECTION! Shutting down...');
+  server.close(() => {
+    process.exit(1);
+  });
+});
+// --------------------------------------------

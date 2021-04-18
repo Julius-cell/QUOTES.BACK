@@ -42,6 +42,7 @@ const renderQuotes = (quotes = []) => {
 const getAllQuotes = async () => {
   try {
     const response = await fetch("/api/quotes");
+    console.log(response);
     const jsonRes = await response.json();
     renderQuotes(jsonRes.data.quotes);
   } catch (err) {

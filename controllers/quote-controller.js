@@ -1,29 +1,11 @@
-const express = require("express");
-const fs = require("fs");
-
-
-
-// -------------------  DATA  -------------------
-const pathData = `${process.cwd()}/data.json`;
-console.log(pathData);
-const quotes = JSON.parse(fs.readFileSync(pathData));
-// -----------------------------------------------------------
-
-// -------------------  FUNCTIONS  -------------------
-const getRandomElement = (arr) => {
-  if (!Array.isArray(arr)) throw new Error("Expected an array");
-  return arr[Math.floor(Math.random() * arr.length)];
-};
-const getQuoteByAuthor = (arr, author) => {
-  const quote = arr.filter((elem) => elem.person === author);
-  return quote;
-};
-// -----------------------------------------------------------
-
-
+const Quote = require("../models/quoteModel");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require('../utils/appError');
 
 // -------------------  CONTROLLERS  -------------------
-const quote_all = (req, res) => {
+exports.quote_all = catchAsync(async (req, res, next) => {
+  const quotes = await Quote.find().sort("-createdAt").select("-__v");
+
   res.status(200).json({
     status: "success",
     results: quotes.length,
@@ -31,102 +13,87 @@ const quote_all = (req, res) => {
       quotes,
     },
   });
-};
+});
 
-const quote_random = (req, res) => {
-  const randomQuote = getRandomElement(quotes);
+exports.quote_random = catchAsync(async (req, res, next) => {
+  const lent = await Quote.count();
+  const random = Math.floor(Math.random() * lent);
+  const quote = await Quote.findOne().skip(random);
+
   res.status(200).json({
     status: "success",
     data: {
-      quote: [randomQuote],
+      quote,
     },
   });
-};
+});
 
-const quote_byAuthor = (req, res) => {
-  const author = req.query.person;
-  const quoteByAuthor = getQuoteByAuthor(quotes, author);
+exports.quote_byAuthor = catchAsync(async (req, res, next) => {
+  const quote = await Quote.findOne({ person: req.params.person });
+
+  if(!quote) {
+    return next(new AppError('No Quote found with that Author', 404));
+  };
+
   res.status(200).json({
     status: "success",
     data: {
-      quote: quoteByAuthor,
+      quote,
     },
   });
-};
+});
 
-const add_quote = (req, res) => {
-  const newId = quotes[quotes.length - 1].id + 1;
-  const newQuote = Object.assign({ id: newId }, req.body);
-  // console.log(newQuote);
-  quotes.push(newQuote);
-  fs.writeFile(pathData, JSON.stringify(quotes), (err) => {
-    res.status(201).send({
-      status: "success",
-      data: {
-        newQuote,
-      },
-    });
-  });
-};
+exports.add_quote = catchAsync(async (req, res, next) => {
+  const newQuote = await Quote.create(req.body);
 
-const get_modify_quote = (req, res) => {
-  const idQuote = req.query.id;
-  // console.log(idQuote);
-  const modifyQuote = quotes.find((elem) => {
-    if (elem.id == idQuote) return elem;
-  });
-  res.status(201).json({
+  res.status(201).send({
     status: "success",
     data: {
-      modifyQuote,
+      newQuote,
     },
   });
-};
+});
 
-const put_modify_quote = (req, res) => {
-  const modifiedElem = req.body;
-  const id = parseInt(modifiedElem.id);
-  // console.log(id);
-  modifiedElem.id = id;
-  
-  quotes.splice(id, 1, modifiedElem);
-  fs.writeFile(pathData, JSON.stringify(quotes), (err) => {
-    res.status(201).json({
-      status: "success",
-      data: {
-        modifiedElem,
-      },
-    });
-  });
-};
+exports.get_modify_quote = catchAsync(async (req, res, next) => {
+  const quote = await Quote.findById(req.params.id);
 
-const delete_quote = (req, res) => {
-  const quotesUpdate = [];
-  const id = req.query.id;
-  quotes.map((elem) => {
-    if (elem.id !== parseInt(id)) {
-      quotesUpdate.push(elem);
-    }
-    return quotesUpdate;
+  res.status(201).send({
+    status: "success",
+    data: {
+      quote,
+    },
   });
-  fs.writeFile(pathData, JSON.stringify(quotesUpdate), (err) => {
-    res.status(201).send({
-      status: "success",
-      data: {
-        quote: quotesUpdate,
-      },
-    });
-  }
-  );
-};
+});
+
+exports.patch_modify_quote = catchAsync(async (req, res, next) => {
+  // console.log(req.body);
+  const quote = await Quote.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  if(!quote) {
+    return next(new AppError('No Quote found with that ID', 404));
+  };
+
+  res.status(201).send({
+    status: "success",
+    data: {
+      quote,
+    },
+  });
+});
+
+exports.delete_quote = catchAsync(async (req, res, next) => {
+  const quote = await Quote.findByIdAndDelete(req.params.id);
+
+  if(!quote) {
+    return next(new AppError('No Quote found with that ID', 404));
+  };
+
+  res.status(204).send({
+    status: "success",
+    data: null,
+  });
+});
 // -----------------------------------------------------------
-
-module.exports = {
-  quote_all,
-  quote_random,
-  quote_byAuthor,
-  add_quote,
-  get_modify_quote,
-  put_modify_quote,
-  delete_quote,
-};
