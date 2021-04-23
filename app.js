@@ -1,5 +1,5 @@
 const express = require("express");
-const morgan = require("morgan");
+// const morgan = require("morgan");
 const cors = require('cors');
 const path = require('path');
 
@@ -15,7 +15,7 @@ app.use(express.static('public'));
 
 
 // -------------------  MIDDLEWARES  ---------------------
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 // With this middleware i can received data from 'options'(fetch) from the browser
