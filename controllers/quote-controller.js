@@ -9,9 +9,7 @@ exports.quote_all = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     results: quotes.length,
-    data: {
-      quotes,
-    },
+    data: quotes,
   });
 });
 
@@ -22,14 +20,13 @@ exports.quote_random = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    data: {
-      quote,
-    },
+    data: [quote],
   });
 });
 
 exports.quote_byAuthor = catchAsync(async (req, res, next) => {
-  const quote = await Quote.findOne({ person: req.params.person });
+  const quote = await Quote.find({ person: req.params.person });
+  console.log(quote);
 
   if(!quote) {
     return next(new AppError('No Quote found with that Author', 404));
@@ -37,20 +34,15 @@ exports.quote_byAuthor = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    data: {
-      quote,
-    },
+    data: quote,
   });
 });
 
 exports.add_quote = catchAsync(async (req, res, next) => {
-  const newQuote = await Quote.create(req.body);
-
+  const quote = await Quote.create(req.body);
   res.status(201).send({
     status: "success",
-    data: {
-      newQuote,
-    },
+    data: [quote],
   });
 });
 
@@ -59,9 +51,7 @@ exports.get_modify_quote = catchAsync(async (req, res, next) => {
 
   res.status(201).send({
     status: "success",
-    data: {
-      quote,
-    },
+    data: quote,
   });
 });
 
@@ -78,9 +68,7 @@ exports.patch_modify_quote = catchAsync(async (req, res, next) => {
 
   res.status(201).send({
     status: "success",
-    data: {
-      quote,
-    },
+    data: quote,
   });
 });
 
