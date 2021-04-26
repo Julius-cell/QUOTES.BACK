@@ -18,10 +18,10 @@ const QuoteSchema = new mongoose.Schema({
     default: Date.now(),
     select: false
   },
-  category: [{
+  category: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Category"
-  }]
+    ref: 'Category'
+  }
 });
 
 const Quote = mongoose.model('Quote', QuoteSchema);

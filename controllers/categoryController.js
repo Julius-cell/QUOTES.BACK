@@ -24,7 +24,7 @@ exports.delete_category = catchAsync(async (req, res, next) => {
   const category = await Category.findByIdAndDelete(req.params.id);
 
   if(!category) {
-    return next(new AppError('No Quote found with that ID', 404));
+    return next(new AppError('No Category found with that ID', 404));
   };
 
   res.status(204).send({
