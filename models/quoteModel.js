@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const quoteSchema = new mongoose.Schema({
+const QuoteSchema = new mongoose.Schema({
   quote: {
     type: String,
     required: [true, 'A quote must have a message'],
@@ -17,9 +17,13 @@ const quoteSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
     select: false
-  }
+  },
+  category: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category"
+  }]
 });
 
-const Quote = mongoose.model('Quote', quoteSchema);
+const Quote = mongoose.model('Quote', QuoteSchema);
 
 module.exports = Quote;

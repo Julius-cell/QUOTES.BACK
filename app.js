@@ -5,7 +5,8 @@ const path = require('path');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
-const quotesRouter = require('./routes/quote-routes');
+const quotesRouter = require('./routes/quoteRoutes');
+const categoriesRouter = require('./routes/categoryRoutes');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // -------------------  ROUTES  --------------------------
 app.use('/api/quotes/', quotesRouter);
+app.use('/api/categories/', categoriesRouter);
 // -------------------------------------------------------
 
 

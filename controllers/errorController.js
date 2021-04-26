@@ -7,7 +7,6 @@ const handleCastErrorDB = (err) => {
 
 const handleDuplicateFieldsDB = (err) => {
   const value = err.message.match(/(["'])(?:\\.|[^\\])*?\1/)[0];
-  // console.log(value);
   const message = `Duplicate field value: ${value}. Please use another value!`;
   return new AppError(message, 400);
 };
@@ -53,12 +52,8 @@ const sendMongooseError = (err, res) => {
   }
 };
 
-const handleJWTError = () => new AppError('Invalid Token. Please log in Again', 401);
-
-const handleExpireSessionError = () => new AppError('Your Session has expired!. Please log in again', 401);
 
 module.exports = (err, req, res, next) => {
-  // console.log(err.stack);
 
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
@@ -80,8 +75,6 @@ module.exports = (err, req, res, next) => {
     error = handleValidationErrorDB(error);
     sendMongooseError(error, res);
   }
-  if (error.name === "JsonWebTokenError") error = handleJWTError();
-  if (error.name === "TokenExpiredError") error = handleExpireSessionError();
 
   sendError(error, res);
 };

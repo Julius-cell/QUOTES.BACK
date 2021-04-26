@@ -2,10 +2,10 @@ const Quote = require("../models/quoteModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require('../utils/appError');
 
+
 // -------------------  CONTROLLERS  -------------------
 exports.quote_all = catchAsync(async (req, res, next) => {
   const quotes = await Quote.find().sort("-createdAt").select("-__v");
-
   res.status(200).json({
     status: "success",
     results: quotes.length,
@@ -26,7 +26,6 @@ exports.quote_random = catchAsync(async (req, res, next) => {
 
 exports.quote_byAuthor = catchAsync(async (req, res, next) => {
   const quote = await Quote.find({ person: req.params.person });
-  console.log(quote);
 
   if(!quote) {
     return next(new AppError('No Quote found with that Author', 404));
@@ -56,7 +55,6 @@ exports.get_modify_quote = catchAsync(async (req, res, next) => {
 });
 
 exports.patch_modify_quote = catchAsync(async (req, res, next) => {
-  // console.log(req.body);
   const quote = await Quote.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
