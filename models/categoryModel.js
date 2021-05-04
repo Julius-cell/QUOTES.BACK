@@ -10,7 +10,7 @@ const CategorySchema = new mongoose.Schema({
         default: Date.now(),
         select: false
       },
-    owner: [{
+    quotes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Quote'
     }]

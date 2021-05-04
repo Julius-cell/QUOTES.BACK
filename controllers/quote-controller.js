@@ -37,19 +37,6 @@ exports.quote_byAuthor = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.allQuotesByCategory = catchAsync(async (req, res, next) => {
-  const quotes = await Quote.find({ category: req.params.categoryId });
-
-  if(!quotes) {
-    return next(new AppError('No Quote found with that Category', 404));
-  };
-
-  res.status(200).json({
-    status: "success",
-    data: quotes,
-  });
-});
-
 exports.add_quote = catchAsync(async (req, res, next) => {
   console.log(req.body);
   const quote = await Quote.create(req.body);
@@ -59,17 +46,7 @@ exports.add_quote = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.get_modify_quote = catchAsync(async (req, res, next) => {
-  const quote = await Quote.findById(req.params.id);
-
-  res.status(201).send({
-    status: "success",
-    data: quote,
-  });
-});
-
 exports.patch_modify_quote = catchAsync(async (req, res, next) => {
-  console.log(req.body);
   const quote = await Quote.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,

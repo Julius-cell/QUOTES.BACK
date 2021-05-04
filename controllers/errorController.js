@@ -24,8 +24,6 @@ const sendError = (err, res) => {
     res.status(err.statusCode).json({
       status: err.status,
       error: err,
-      message: err.message,
-      stack: err.stack,
     });
     // Programming or other unknown error
   } else {
@@ -36,9 +34,6 @@ const sendError = (err, res) => {
       status: "error",
       alert: "Something went very wrong!",
       error: err,
-      name: err.name,
-      message: err.message,
-      stack: err.stack,
     });
   }
 };
