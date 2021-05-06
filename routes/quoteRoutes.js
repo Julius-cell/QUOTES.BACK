@@ -1,11 +1,12 @@
 const express = require("express");
 const quoteController = require("../controllers/quote-controller");
+const authController = require("../controllers/authController");
 
 const router = express.Router();
 
 router
   .route("/")
-  .get(quoteController.quote_all)
+  .get(authController.protect, quoteController.quote_all)
   .post(quoteController.add_quote);
 
 router.route("/random").get(quoteController.quote_random);
