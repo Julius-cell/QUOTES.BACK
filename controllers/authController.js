@@ -12,7 +12,7 @@ const signToken = (id) => {
   });
 };
 
-const createAndSnedToken = (user, statusCode, res) => {
+const createAndSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
 
   res.status(statusCode).json({
@@ -35,7 +35,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     role: req.body.role,
   });
 
-  createAndSnedToken(newUser, 201, res);
+  createAndSendToken(newUser, 201, res);
 });
 
 
@@ -54,7 +54,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   // 3) If everything ok, send token to client
-  createAndSnedToken(user, 200, res);
+  createAndSendToken(user, 200, res);
 });
 
 
@@ -171,7 +171,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   // 3) Update changePasswordAt property for the user
 
   // 4) Log the user in, send JWT
-  createAndSnedToken(user, 200, res);
+  createAndSendToken(user, 200, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -187,5 +187,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   // 4) Log user in, send JWT 
-  createAndSnedToken(user, 200, res);
+  createAndSendToken(user, 200, res);
 })
