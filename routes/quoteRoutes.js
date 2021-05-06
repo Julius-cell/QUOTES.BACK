@@ -11,8 +11,10 @@ router
 
 router.route("/random").get(quoteController.quote_random);
 
-router.route("/:id")
-  .delete(quoteController.delete_quote)
+router.route("/:id").delete(
+  authController.protect, 
+  authController.restrictTo('admin'), 
+  quoteController.delete_quote);
 
 router.route("/author/:person").get(quoteController.quote_byAuthor);
 
