@@ -5,6 +5,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const hpp = require('hpp');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -33,6 +34,11 @@ app.use(express.json());
 app.use(mongoSanitize());
 // Data sanitization against XSS
 app.use(xss());
+// Prevent parameter pollution (exam: more than one sort) - whitelist for exceptions
+app.use(hpp());
+// app.use(hpp({
+  // whitelist: []
+// }));
 // With this middleware i can received data from 'options'(fetch) from the browser
 app.use(express.urlencoded({ extended: true }));
 // -------------------------------------------------------
