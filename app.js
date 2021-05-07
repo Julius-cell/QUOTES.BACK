@@ -3,6 +3,8 @@ const cors = require('cors');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -27,6 +29,10 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 app.use(cors());
 app.use(express.json());
+// Data sanitization NoSQL query injection
+app.use(mongoSanitize());
+// Data sanitization against XSS
+app.use(xss());
 // With this middleware i can received data from 'options'(fetch) from the browser
 app.use(express.urlencoded({ extended: true }));
 // -------------------------------------------------------
