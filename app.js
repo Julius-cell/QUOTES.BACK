@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require('cors');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -18,6 +19,12 @@ app.use(express.static('public'));
 
 // -------------------  MIDDLEWARES  ---------------------
 // app.use(morgan("dev"));
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many request from this IP, please try again in an hour!'
+})
+app.use('/api', limiter);
 app.use(cors());
 app.use(express.json());
 // With this middleware i can received data from 'options'(fetch) from the browser
