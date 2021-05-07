@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require('cors');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -12,13 +13,12 @@ const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
-// -------------------  STATICS FILES  -------------------
-app.use(express.static('public'));
-// -------------------------------------------------------
 
 
 // -------------------  MIDDLEWARES  ---------------------
-// app.use(morgan("dev"));
+// Set Security HTTP headers
+app.use(helmet());
+// Limit request from the same API
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
@@ -31,6 +31,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // -------------------------------------------------------
 
+// -------------------  STATICS FILES  -------------------
+app.use(express.static('public'));
+// -------------------------------------------------------
 
 // -------------------  ROUTES  --------------------------
 app.use('/api/quotes/', quoteRouter);
