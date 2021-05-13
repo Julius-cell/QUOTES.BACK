@@ -18,7 +18,7 @@ const createAndSendToken = (user, statusCode, res) => {
   // Insert the token into a cookie
   const cookieOptions = {
     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
-    httpOnly: true
+    httpOnly: true  // we can not manipulate the cookie in the browser in any way
     // secure: true,
   }
   res.cookie('jwt', token, cookieOptions);
@@ -64,6 +64,15 @@ exports.login = catchAsync(async (req, res, next) => {
   // 3) If everything ok, send token to client
   createAndSendToken(user, 200, res);
 });
+
+
+exports.logout = (req, res, next) => {
+  res.cookie('jwt', 'bye', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
+  });
+  res.status(200).json({ status: 'success' });
+};
 
 
 exports.protect = catchAsync(async (req, res, next) => {
