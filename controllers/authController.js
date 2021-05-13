@@ -13,13 +13,14 @@ const signToken = (id) => {
 };
 
 const createAndSendToken = (user, statusCode, res) => {
+  // Creates the token
   const token = signToken(user._id);
+  // Insert the token into a cookie
   const cookieOptions = {
     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
     httpOnly: true
     // secure: true,
   }
-
   res.cookie('jwt', token, cookieOptions);
   // Remove the password from the output
   user.password = undefined;
@@ -41,7 +42,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordChangedAt: req.body.passwordChangedAt,
     role: req.body.role,
   });
-
+  // Send token into a cookie
   createAndSendToken(newUser, 201, res);
 });
 
@@ -73,6 +74,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith('Bearer')
   ) {
     token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
   }
 
   if (!token) {
