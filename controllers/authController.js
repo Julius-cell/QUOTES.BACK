@@ -16,8 +16,9 @@ const createAndSendToken = (user, statusCode, res) => {
   // Creates the token
   const token = signToken(user._id);
   // Insert the token into a cookie
+  const expires = new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000);
   const cookieOptions = {
-    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+    expires: expires,
     httpOnly: true  // we can not manipulate the cookie in the browser in any way
     // secure: true,
   }
@@ -28,6 +29,7 @@ const createAndSendToken = (user, statusCode, res) => {
   res.status(statusCode).json({
     status: 'success',
     token,
+    expires,
     data: user
   })
 }
@@ -67,11 +69,12 @@ exports.login = catchAsync(async (req, res, next) => {
 
 
 exports.logout = (req, res, next) => {
+  const expires = new Date(Date.now() + 10 * 1000);
   res.cookie('jwt', 'bye', {
-    expires: new Date(Date.now() + 10 * 1000),
+    expires: expires,
     httpOnly: true
   });
-  res.status(200).json({ status: 'success' });
+  res.status(200).json({ status: 'success', expires });
 };
 
 
