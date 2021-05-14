@@ -68,16 +68,6 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 
-exports.logout = (req, res, next) => {
-  const expires = new Date(Date.now() + 10 * 1000);
-  res.cookie('jwt', 'bye', {
-    expires: expires,
-    httpOnly: true
-  });
-  res.status(200).json({ status: 'success', expires });
-};
-
-
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Gettin token and check if it's there
   let token;
