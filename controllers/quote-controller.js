@@ -38,7 +38,6 @@ exports.quote_byAuthor = catchAsync(async (req, res, next) => {
 });
 
 exports.add_quote = catchAsync(async (req, res, next) => {
-  console.log(req.body);
   const quote = await Quote.create(req.body);
   res.status(201).send({
     status: "success",
