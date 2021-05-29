@@ -8,12 +8,11 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 
-const AppError = require('./utils/appError');
+// const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
 const quoteRouter = require('./routes/quoteRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
-const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
@@ -57,7 +56,6 @@ app.use((req, res, next) => {
 // -------------------  ROUTES  --------------------------
 app.use('/api/quotes/', quoteRouter);
 app.use('/api/categories/', categoryRouter);
-app.use('/api/user/', userRouter);
 // -------------------------------------------------------
 
 
