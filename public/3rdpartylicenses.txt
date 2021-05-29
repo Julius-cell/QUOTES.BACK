@@ -41,9 +41,6 @@ MIT
 @angular/router
 MIT
 
-ngx-cookie-service
-MIT
-
 primeflex
 MIT
 The MIT License (MIT)
