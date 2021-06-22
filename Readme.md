@@ -1,8 +1,10 @@
-# Readme 
+# Quotes - Backend
 
 **Version 1.0.0**
 
-Aplicación que permite añadir, modificar y eliminar frases (Quotes) de una base de datos(json file).
+Este proyecto nace por mi gusto por aquellas frases que alguna ves se han presentado a mi vida y su significado ha hecho eco en mí. Ya que estaba gastando muchas páginas de mis libretas, preferí almacenarlas en una DB y poder acceder a ellas de una forma más práctica.
+
+Si compartes este gusto entonces te invito a colaborar con alguna de tus frases preferidas: [Quotes](https://quotes-jc.herokuapp.com/#/quotes).
 
 ---
 
@@ -13,7 +15,7 @@ Aplicación que permite añadir, modificar y eliminar frases (Quotes) de una bas
 - Morgan
 - JavaScript
 - HTML / CSS
-
+- Mongoose / MongoDB
 - Validator
 - BCryptjs
 - JsonWebToken
@@ -28,7 +30,7 @@ Aplicación que permite añadir, modificar y eliminar frases (Quotes) de una bas
 
 ---
 
-## Contributors
+## Authors
 
 - Julio Cid <julio.cid.b@gmail.com>.
 
