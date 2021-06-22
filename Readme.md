@@ -22,6 +22,19 @@ Si compartes este gusto entonces te invito a colaborar con alguna de tus frases 
 
 ---
 
+## Run Server
+
+- Clone or download the repo
+- Run 'npm install'
+- Run 'touch config.env'
+- Create the following variables: 
+  1. DATABASE=mongodb+srv://username:<PASSWORD>@cluster.mongodb.net/collection_name
+  2. DATABASE_PASSWORD= password
+  3. PORT= number of port
+- Run 'npm run dev'
+
+---
+
 ## Learn More
 
 - To learn Express, check out the [Express documentation](http://expressjs.com/).
